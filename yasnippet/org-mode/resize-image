@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: resize image in org
+# key: <rimg
+# --
+
+#+attr_html: :width ${1:size}px
+#+attr_latex: :width ${2:size}px
+#+attr_org: :width ${3:size}px

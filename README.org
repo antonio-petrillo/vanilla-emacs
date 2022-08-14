@@ -1,0 +1,6 @@
+#+author: Antonio Petrillo
+#+title: Vanilla emacs config
+
+* My emacs configuration
+Heavily inspired by [[https:github.com/lccambiaghi/vanilla-emacs][Luca Cambiaghi]] config and [[https://config.daviwil.com/emacs][David Wilson]] aka [[https://www.youtube.com/c/SystemCrafters][System Crafters]].
+I'm not sure if I want to drop [[https://github.com/doomemacs/doomemacs.git][Doom Emacs]], honestly I will never write a configuration that good and the speed of Doom is unreal, for now I will keep them both and try to improve them.
