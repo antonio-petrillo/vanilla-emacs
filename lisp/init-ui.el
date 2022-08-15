@@ -1,25 +1,26 @@
 (use-package evil-goggles
-	     :after evil
-	     :demand
-	     :init
-	     (setq evil-goggles-duration 0.05))
+	:after evil
+	:demand
+	:init
+	(setq evil-goggles-duration 0.05))
 
 (use-package all-the-icons-dired
-  :if (display-graphic-p)
+  :if (not nto/is-raspberry)
   :hook (dired-mode . (lambda () (interactive)
                         (unless (file-remote-p default-directory)
                           (all-the-icons-dired-mode)))))
 
 (use-package all-the-icons
-	:if (display-graphic-p)
+	:if (not nto/is-raspberry)
   :demand)
 
 (use-package all-the-icons-ibuffer
-	:if (display-graphic-p)
+	:if (not nto/is-raspberry)
   :demand
   :hook (ibuffer-mode . all-the-icons-ibuffer-mode))
 
 (use-package all-the-icons-completion
+	:if (not nto/is-raspberry)
   :after
 	(marginalia all-the-icons)
   :hook
@@ -38,7 +39,7 @@
   (setq doom-modeline-height 20))
 
 (use-package emacs
-  :if (display-graphic-p)
+  ;; :if (display-graphic-p)
   :init
 	(setq initial-scratch-message nil)
 

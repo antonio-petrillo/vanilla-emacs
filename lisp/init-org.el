@@ -25,19 +25,16 @@
 				org-image-actual-width nil))
 
 (use-package org-modern
+	:if (not nto/is-raspberry)
 	:after
 	(org evil)
 	:init
 	(global-org-modern-mode))
 
 (use-package org-appear
+	:if (not nto/is-raspberry)
 	:after
 	(org evil)
-	;; :straight
-	;; (org-appear
-	;;  :type git
-	;;  :host github
-	;;  :repo "awth13/org-appear")
 	:hook
 	(org-mode . org-appear-mode)
 	:init
@@ -50,6 +47,7 @@
 	(setq org-appear-autosubmarkers t))
 
 (use-package org-fragtog
+	:if (not nto/is-raspberry)
 	:after
 	(org evil)
 	:hook

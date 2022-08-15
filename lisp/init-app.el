@@ -40,6 +40,7 @@
 ;; dependencies
 ;; libvterm cmake
 (use-package vterm
+	:if (not nto/is-raspberry)
   :init
   (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
   :commands vterm
@@ -52,6 +53,7 @@
 ;; pacman -S fd poppler ffmpegthumbnailer mediainfo imagemagick tar unzip
 ;;
 (use-package dirvish
+	:if (not nto/is-raspberry)
 	:init
 	(nto/leader-keys
 		;; "." 'dirvish-side
@@ -65,6 +67,7 @@
 	(dirvish-attributes '(file-size collapse subtree-state vc-state git-msg)))
 
 (use-package pdf-tools
+	:if (not nto/is-raspberry)
 	:config
 	(pdf-tools-install)
 	(setq-default pdf-view-display-size 'fit-page))

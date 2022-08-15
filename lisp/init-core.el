@@ -63,6 +63,14 @@
 
 (use-package emacs
   :init
+	(setq nto/is-raspberry (and (eq system-type 'gnu/linux)
+															(string-match "aarch64" (shell-command-to-string "uname -m"))
+															t)) ;; add something to check if emacs is running on my pi4
+;;	(setq nto/is-mac nil) ;; I don't even have a mac right now, but I'm trying to find a M1
+;;	(setq nto/is-ipad nil) ;; I can't install emacs on blink, I need to explore more iSh, but iSH is "only" an Alpine container
+	;; (setq nto/is-gnu-linux t)
+	;; (setq nto/is-winzozz t)
+
 	;; follow symlinks
 	(setq vc-follow-symlinks t)
 	;; don't warn for large files
@@ -169,6 +177,7 @@
 (use-package consult)
 
 (use-package general
+	:after evil
   :demand
   :config
 	(general-evil-setup)
