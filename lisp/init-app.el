@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (use-package dired
 	:straight (:type built-in)
 	:init
@@ -30,7 +32,6 @@
   (setq dired-dwim-target t)
 	(setf dired-kill-when-opening-new-dired-buffer t))
 
-;; move to app.el
 (use-package dired-hide-dotfiles
   :hook (dired-mode . dired-hide-dotfiles-mode)
   :config
@@ -43,11 +44,27 @@
 	:if (not nto/is-raspberry)
   :init
   (setq vterm-module-cmake-args "-DUSE_SYSTEM_LIBVTERM=no")
+	;; (nto/leader-keys
+	;; 	"oT" 'vterm
+	;; 	"v" '(:ignore t :wk "vterm")
+	;; 	"vo" 'vterm)
   :commands vterm
   :config
   (setq term-prompt-regexp "^[^#$%>\n]*[#$%>] *")  ;; Set this to match your custom shell prompt
   ;;(setq vterm-shell "zsh")                       ;; Set this to customize the shell to launch
   (setq vterm-max-scrollback 10000))
+
+(use-package vterm-toggle
+	:init
+	(nto/leader-keys
+		"ot" 'vterm-toggle-cd
+		"oT" 'vterm-toggle
+		"v" '(:ignore t :wk "vterm")
+		"vo" 'vterm-toggle-cd
+		"vn" 'vterm-toggle-forward
+		"vj" 'vterm-toggle-forward
+		"vp" 'vterm-toggle-backward
+		"vk" 'vterm-toggle-backward))
 
 ;; dependencies
 ;; pacman -S fd poppler ffmpegthumbnailer mediainfo imagemagick tar unzip

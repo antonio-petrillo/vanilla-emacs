@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (use-package emacs
 	:init
 	;; see: https://github.com/lccambiaghi/vanilla-emacs/blob/main/lisp/init-core.el

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 ;; setup straight.el
 (setq straight-use-package-by-default t)
 (setq straight-vc-git-default-clone-depth 1)
@@ -43,7 +45,7 @@
 (use-package no-littering
 	:demand
 	:init
-	(setq custom-file (expand-file-name "custom.el" (concat user-emacs-directory "lisp")))
+	(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
   :config
   (with-eval-after-load 'recentf
     (add-to-list 'recentf-exclude no-littering-var-directory)
@@ -66,7 +68,7 @@
 	(setq nto/is-raspberry (and (eq system-type 'gnu/linux)
 															(string-match "aarch64" (shell-command-to-string "uname -m"))
 															t)) ;; add something to check if emacs is running on my pi4
-;;	(setq nto/is-mac nil) ;; I don't even have a mac right now, but I'm trying to find a M1
+;;	(setq nto/is-mac nil) ;; I don't even have a mac right now, but I'm trying to find an M1
 ;;	(setq nto/is-ipad nil) ;; I can't install emacs on blink, I need to explore more iSh, but iSH is "only" an Alpine container
 	;; (setq nto/is-gnu-linux t)
 	;; (setq nto/is-winzozz t)
@@ -213,9 +215,6 @@
 	"fD" '((lambda () (interactive) (delete-file (buffer-file-name))) :wk "delete")
 	"ff" 'find-file
 	"." 'find-file
-	"fa" '(:ignore t :which-key "affe")
-	"faf" 'affe-find
-	"fag" 'affe-grep
 	"fs" 'save-buffer
 	;; to add:
 	;; + rename file
@@ -232,6 +231,8 @@
 	"hK" 'describe-keymap
 	"hp" 'describe-package
 	"hv" 'describe-variable
+
+	"o" '(:ignore t :wk "open")
 
 	"t" '(:ignore t :which-key "toggle")
 	"tl" '(display-line-numbers-mode :wk "line numbers")
@@ -295,6 +296,8 @@
 (setq user-full-name "Antonio Petrillo"
 			user-mail-address "antonio.petrillo4@studenti.unina.it")
 
+(setq dots-directory "~/.dotfiles/")
+
 (use-package vertico
 	:demand
 	:bind
@@ -338,13 +341,35 @@
 	((prog-mode . corfu-mode)
 	 (eshell-mode . corfu-mode)
 	 (org-mode . corfu-mode))
+	:bind
+	(:map corfu-map
+				("C-j" . corfu-next)
+				("C-k" . corfu-previous))
+	(:map evil-insert-state-map ("C-k" . nil))
 	:init
 	(global-corfu-mode))
 ;; todo
 ;; + add cape by minad
 ;; + checkout dabbrev
 
-(use-package affe)
+(use-package kind-icon
+	:after corfu
+	:demand
+	:init
+	(setq kind-icon-default-face 'corfu-default)
+	(setq kind-icon-blend-background nil)
+	(setq kind-icon-blend-frac 0.08)
+	:config
+	(add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)
+	(with-eval-after-load 'modus-themes
+		(add-hook 'modus-themes-after-load-theme-hook #'(lambda () (interactive) (kind-icon-reset-cache)))))
+
+(use-package affe
+	:init
+	(nto/leader-keys
+		"fa" '(:ignore t :which-key "affe")
+		"faf" 'affe-find
+		"fag" 'affe-grep))
 
 (use-package yasnippet
 	:config

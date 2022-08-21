@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (use-package org
 	:hook
 	((org-mode . prettify-symbols-mode)
