@@ -24,7 +24,19 @@
 				org-startup-indented t
 				org-catch-invisible-edits 'smart
 				org-ellipsis " ⬎ "
-				org-image-actual-width nil))
+				org-image-actual-width nil)
+
+	(setq org-log-done t)
+
+	(setq org-agenda-files '("~/Documents/Org/Agenda/Notes.org"
+													 "~/Documents/Org/Agenda/Private.org"
+													 "~/Documents/Org/Agenda/Uni.org"))
+	(nto/leader-keys
+		"oa" '(:ignore t :wk "Agenda")
+		"oaa" 'org-agenda
+		"oan" '((lambda () (interactive) (find-file (nth 0 org-agenda-files))) :wk "Note agenda")
+		"oap" '((lambda () (interactive) (find-file (nth 1 org-agenda-files))) :wk "Private agenda")
+		"oau" '((lambda () (interactive) (find-file (nth 2 org-agenda-files))) :wk "Uni agenda")))
 
 (use-package org-modern
 	:if (not nto/is-raspberry)
@@ -147,15 +159,11 @@
   (defun +org/insert-item-above (count)
     "Inserts a new heading, table cell or item above the current one."
     (interactive "p")
-    (dotimes (_ count) (+org--insert-item 'above)))
+    (dotimes (_ count) (+org--insert-item 'above))))
 
-  )
-
-;; todo:
-;; + add org roam
 (use-package org-roam
 	:custom
-	(org-roam-directory "~/Documents/Roam") ;; todo, move path to a variable
+	(org-roam-directory "~/Documents/Org/Roam") ;; todo, move path to a variable
 	(org-roam-completion-everywhere t)
 	:init
 	(setq org-roam-v2-ack t)

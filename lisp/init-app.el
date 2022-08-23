@@ -15,7 +15,7 @@
  	 (kbd "J") 'dired-goto-file
  	 (kbd "M") 'dired-chmod
  	 (kbd "O") 'dired-chown
- 	 (kbd "R") 'dired-rename
+ 	 (kbd "R") 'dired-do-rename
  	 (kbd "T") 'dired-do-touch
  	 (kbd "Y") 'dired-copy-filename-as-kill ; copies filename to kill ring.
  	 (kbd "+") 'dired-create-directory
@@ -27,6 +27,7 @@
 	(setq dired-omit-files "^\\.[^.]\\|$Rhistory\\|$RData\\|__pycache__")
 	(setq dired-listing-switches "-lah")
   (setq ls-lisp-dirs-first t)
+  (setq dired-dwim-target t)
   (setq delete-by-moving-to-trash t)
   (setq ls-lisp-use-insert-directory-program nil)
   (setq dired-dwim-target t)
@@ -88,6 +89,23 @@
 	:config
 	(pdf-tools-install)
 	(setq-default pdf-view-display-size 'fit-page))
+
+(use-package xkcd
+	:config
+	(setq xkcd-cache-dir (expand-file-name xkcd-home))
+	(setq xkcd-cache-latest (concat xkcd-cache-dir "latest"))
+	(general-define-key
+	 :states 'normal
+	 :keymaps 'xkcd-mode-map
+	 "<right>"  #'xkcd-next
+	 "h"  #'xkcd-prev
+	 "n"  #'xkcd-prev
+	 "<left>"  #'xkcd-prev
+	 "l"  #'xkcd-prev
+	 "p"  #'xkcd-prev
+	 "r"  #'xkcd-rand
+	 "q"  #'xkcd-kill-buffer
+	 "o"  #'xkcd-open-browser))
 
 ;; to add:
 ;; + telega (telegram)

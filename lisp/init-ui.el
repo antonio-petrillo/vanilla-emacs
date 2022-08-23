@@ -61,6 +61,12 @@
 											:font "VictorMono Nerd Font"
 											:weight 'light
 											:height 130)
+;; I think this function could be written better
+	;; (if (>
+	;; 		 (string-to-number (nth 3 (split-string (current-time-string) " ")))
+	;; 		 17) ;; after 17:00
+	;; 		(load-theme 'modus-vivendi)
+	;; 	(load-theme 'modus-operandi)))
 
   (load-theme 'modus-operandi))
 
@@ -121,14 +127,16 @@
 	:init
 	(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
 	(setq dashboard-center-content t
-				;; dashboard-startup-banner 'logo
-				dashboard-startup-banner 'official
 				dashboard-show-shortcuts nil
 				dashboard-set-navigator t
 				dashboard-set-heading-icons t
 				dashboard-set-file-icons t
 				dashboard-set-footer nil
 				dashboard-banner-logo-title nil)
+	(if (not nto/is-raspberry)
+			;; (setq dashboard-startup-banner 'logo)
+			(setq dashboard-startup-banner 'official)
+		(setq dashboard-startup-banner pi-banner))
 	(setq dashboard-navigator-buttons
 				`((;;Github
 					 (,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
@@ -144,6 +152,10 @@
 						"Dotfiles configuration for this machine"
 						(lambda (&rest _) (dired dots-directory)))
 					 )))
+	(setq dashboard-items '((agenda . 5)
+													(projects . 3)
+													(bookmarks . 3)
+													(recents . 3)))
 	(dashboard-setup-startup-hook))
 
 (provide 'init-ui)

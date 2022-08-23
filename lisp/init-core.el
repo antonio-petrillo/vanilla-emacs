@@ -73,6 +73,8 @@
 	;; (setq nto/is-gnu-linux t)
 	;; (setq nto/is-winzozz t)
 
+	;; disable notification bell
+	(setq ring-bell-function (quote ignore))
 	;; follow symlinks
 	(setq vc-follow-symlinks t)
 	;; don't warn for large files
@@ -87,6 +89,9 @@
 	(setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
 	(setq native-comp-async-report-warnings-errors nil)
 	(setq load-prefer-newer t)
+
+	(setq global-auto-revert-mode-non-file-buffers t)
+	(global-auto-revert-mode 1)
 
 	(recentf-mode t)
 	(setq recentf-exclude '(,(expand-file-name "straight/build/" user-emacs-directory)
@@ -192,7 +197,7 @@
 	(general-create-definer nto/local-leader-keys
 													:states '(normal visual insert visual emacs)
 													:keymaps 'override
-													:prefix ","
+													:prefix ";"
 													:global-prefix "C-;"))
 
 (nto/leader-keys
@@ -292,11 +297,18 @@
   :hook ((text-mode . ws-butler-mode)
          (prog-mode . ws-butler-mode)))
 
-;; move to config.el
+;; move to config.el (or early-init?)
 (setq user-full-name "Antonio Petrillo"
 			user-mail-address "antonio.petrillo4@studenti.unina.it")
 
 (setq dots-directory "~/.dotfiles/")
+(setq pi-banner (expand-file-name "res/text_banner.txt" user-emacs-directory))
+(setq xkcd-home (expand-file-name "res/xkcd/" user-emacs-directory))
+
+(if (not (file-directory-p xkcd-home))
+		(make-directory xkcd-home))
+
+(setq yasnippet-home (expand-file-name "yasnippet/" user-emacs-directory))
 
 (use-package vertico
 	:demand
@@ -372,11 +384,13 @@
 		"fag" 'affe-grep))
 
 (use-package yasnippet
-	:config
-	(setq yas-snippet-dirs '(concat user-emacs-directory "yasnippet"))
+	:init
+	(setq yas-snippet-dirs '(yasnippet-home))
 	(yas-global-mode 1))
 
+;; TODO: fix, don't work
 (use-package perspective
+	:demand t
 	:init
 	(nto/leader-keys
 		"TAB" '(:ignore t :which-key "perspective")
@@ -387,7 +401,6 @@
 		"TAB p" 'persp-prev
 		"TAB l" 'persp-next
 		"TAB n" 'persp-next)
-	:init
 	(setq persp-state-default-file (expand-file-name ".persp" user-emacs-directory))
 	(setq persp-suppress-no-prefix-key-warning t)
 	:config
@@ -410,5 +423,66 @@
 	 "gf"  'magit-fetch
 	 "gF"  'magit-fetch-all
 	 "gr"  'magit-rebase))
+
+(use-package hydra)
+
+;; add ace window
+(defhydra nto/hydra-window-management (:pre (message "window management")
+                                       :color pink
+                                       :hint nil
+                                       :post (message "bye bye"))
+  "
+Movement^^      ^Split^         ^Switch^                ^Resize^                ^Action^
+----------------------------------------------------------------------------------------
+_h_ ← _H_ ← m   _v_ertical      _b_uffer                _=_  H ↑                _q_uit
+_j_ ↓ _J_ ↓ m   _s_ horizontal  _f_ind files            _-_  H ↓                _t_erminal v
+_k_ ↑ _K_ ↑ m   _d_ delete      _[_ next buffer         _._  W →                _T_erminal h
+_l_ → _L_ → m   _c_ delete      _]_ prev buffer         _,_  W ←
+^ ^             ^ ^             _C-k_ kill buffer       _e_ balance window
+^ ^             ^ ^             _K_ kill this buffer    ^ ^
+"
+
+  ;; quit wm mode
+  ("q" nil :color blue)
+  ;; buffer & file
+  ( "b" consult-buffer)
+  ("[" previous-buffer)
+  ("]" next-buffer)
+  ("K" kill-this-buffer)
+  ("C-k" kill-buffer)
+  ("f" find-file)
+
+  ;; window size
+  ("=" evil-window-increase-height) ;; = so I don't need to use shift
+  ("-" evil-window-decrease-height)
+  ("." evil-window-increase-width)
+  ("," evil-window-decrease-width)
+  ("e" balance-windows)
+
+  ;; split & swap
+  ("c" evil-window-delete)
+  ("d" evil-window-delete)
+  ("S" ace-swap-window)
+  ("v" evil-window-vsplit)
+  ("s" evil-window-split)
+
+	;; need improvment
+	("t" vterm)
+	("T" vterm)
+
+  ;; movement
+  ("h" evil-window-left)
+  ("H" +evil/window-move-left)
+  ("j" evil-window-down)
+  ("J" +evil/window-move-down)
+  ("k" evil-window-up)
+  ("K" +evil/window-move-up)
+  ("l" evil-window-right)
+  ("L" +evil/window-move-right))
+
+(nto/leader-keys
+	"ow" '((lambda () (interactive) (nto/hydra-window-management/body)) :wk "window management"))
+
+(general-define-key "M-o" 'nto/hydra-window-management/body)
 
 (provide 'init-core)
