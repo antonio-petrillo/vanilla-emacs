@@ -158,4 +158,12 @@
 													(recents . 3)))
 	(dashboard-setup-startup-hook))
 
+(use-package emojify
+	:hook (after-init . global-emojify-mode)
+	:init
+	(nto/leader-keys
+		"ie" 'emojify-insert-emoji
+		"he" 'emojify-describe-emoji-at-point
+		"hE" 'emojify-list-emojis))
+
 (provide 'init-ui)

@@ -8,4 +8,5 @@
   (require 'init-extra)
   (require 'init-ui)
   (require 'init-app)
-  (require 'init-org))
+  (require 'init-org)
+  (require 'init-prog))

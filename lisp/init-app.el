@@ -99,11 +99,11 @@
 	 :keymaps 'xkcd-mode-map
 	 "<right>"  #'xkcd-next
 	 "h"  #'xkcd-prev
-	 "n"  #'xkcd-prev
-	 "<left>"  #'xkcd-prev
-	 "l"  #'xkcd-prev
 	 "p"  #'xkcd-prev
-	 "r"  #'xkcd-rand
+	 "<left>"  #'xkcd-prev
+	 "l"  #'xkcd-next
+	 "n"  #'xkcd-next
+	 "R"  #'xkcd-rand
 	 "q"  #'xkcd-kill-buffer
 	 "o"  #'xkcd-open-browser))
 

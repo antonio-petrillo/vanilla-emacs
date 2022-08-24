@@ -237,6 +237,8 @@
 	"hp" 'describe-package
 	"hv" 'describe-variable
 
+	"i" '(:ignore t :wk "insert")
+
 	"o" '(:ignore t :wk "open")
 
 	"t" '(:ignore t :which-key "toggle")
@@ -302,11 +304,15 @@
 			user-mail-address "antonio.petrillo4@studenti.unina.it")
 
 (setq dots-directory "~/.dotfiles/")
-(setq pi-banner (expand-file-name "res/text_banner.txt" user-emacs-directory))
-(setq xkcd-home (expand-file-name "res/xkcd/" user-emacs-directory))
+(setq resource-dir (expand-file-name "res/" user-emacs-directory))
+(setq pi-banner (expand-file-name "text_banner.txt" resource-dir))
+(setq xkcd-home (expand-file-name "xkcd/" resource-dir))
 
-(if (not (file-directory-p xkcd-home))
-		(make-directory xkcd-home))
+(progn
+	(if (not (file-directory-p resource-dir))
+			(make-directory resource-dir))
+	(if (not (file-directory-p xkcd-home))
+			(make-directory xkcd-home)))
 
 (setq yasnippet-home (expand-file-name "yasnippet/" user-emacs-directory))
 
