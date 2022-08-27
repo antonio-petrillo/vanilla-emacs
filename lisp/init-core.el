@@ -41,7 +41,6 @@
 	     ([remap describe-variable] . helpful-variable)
 	     ([remap describe-key]      . helpful-key))
 
-
 (use-package no-littering
 	:demand
 	:init
@@ -52,7 +51,6 @@
     (add-to-list 'recentf-exclude no-littering-etc-directory)))
 
 
-;; undo system (see evil setup in init-keybidings.el)
 (use-package undo-fu)
 
 (use-package undo-fu-session
@@ -65,13 +63,30 @@
 
 (use-package emacs
   :init
+
+	;; move to config.el (or early-init?)
+	(setq user-full-name "Antonio Petrillo"
+				user-mail-address "antonio.petrillo4@studenti.unina.it")
+
+	(setq dots-directory "~/.dotfiles/")
+	(setq resource-dir (expand-file-name "res/" user-emacs-directory))
+	(setq pi-banner (expand-file-name "text_banner.txt" resource-dir))
+	(setq xkcd-home (expand-file-name "xkcd/" resource-dir))
+
+	(progn
+		(if (not (file-directory-p resource-dir))
+				(make-directory resource-dir))
+		(if (not (file-directory-p xkcd-home))
+				(make-directory xkcd-home)))
+
+	(setq yasnippet-home (expand-file-name "yasnippet/" user-emacs-directory))
 	(setq nto/is-raspberry (and (eq system-type 'gnu/linux)
 															(string-match "aarch64" (shell-command-to-string "uname -m"))
 															t)) ;; add something to check if emacs is running on my pi4
 ;;	(setq nto/is-mac nil) ;; I don't even have a mac right now, but I'm trying to find an M1
-;;	(setq nto/is-ipad nil) ;; I can't install emacs on blink, I need to explore more iSh, but iSH is "only" an Alpine container
+;;	(setq nto/is-ipad nil) ;; I can't install emacs on blink, I need to explore more iSh, but iSH is "only" an Alpine container, consider jaibreak
 	;; (setq nto/is-gnu-linux t)
-	;; (setq nto/is-winzozz t)
+	;; (setq nto/is-winzozz nil)
 
 	;; disable notification bell
 	(setq ring-bell-function (quote ignore))
@@ -299,23 +314,6 @@
   :hook ((text-mode . ws-butler-mode)
          (prog-mode . ws-butler-mode)))
 
-;; move to config.el (or early-init?)
-(setq user-full-name "Antonio Petrillo"
-			user-mail-address "antonio.petrillo4@studenti.unina.it")
-
-(setq dots-directory "~/.dotfiles/")
-(setq resource-dir (expand-file-name "res/" user-emacs-directory))
-(setq pi-banner (expand-file-name "text_banner.txt" resource-dir))
-(setq xkcd-home (expand-file-name "xkcd/" resource-dir))
-
-(progn
-	(if (not (file-directory-p resource-dir))
-			(make-directory resource-dir))
-	(if (not (file-directory-p xkcd-home))
-			(make-directory xkcd-home)))
-
-(setq yasnippet-home (expand-file-name "yasnippet/" user-emacs-directory))
-
 (use-package vertico
 	:demand
 	:bind
@@ -394,7 +392,6 @@
 	(setq yas-snippet-dirs '(yasnippet-home))
 	(yas-global-mode 1))
 
-;; TODO: fix, don't work
 (use-package perspective
 	:demand t
 	:init

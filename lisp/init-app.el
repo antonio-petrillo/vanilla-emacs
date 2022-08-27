@@ -30,7 +30,6 @@
   (setq dired-dwim-target t)
   (setq delete-by-moving-to-trash t)
   (setq ls-lisp-use-insert-directory-program nil)
-  (setq dired-dwim-target t)
 	(setf dired-kill-when-opening-new-dired-buffer t))
 
 (use-package dired-hide-dotfiles
@@ -55,34 +54,69 @@
   ;;(setq vterm-shell "zsh")                       ;; Set this to customize the shell to launch
   (setq vterm-max-scrollback 10000))
 
-(use-package vterm-toggle
-	:init
-	(nto/leader-keys
-		"ot" 'vterm-toggle-cd
-		"oT" 'vterm-toggle
-		"v" '(:ignore t :wk "vterm")
-		"vo" 'vterm-toggle-cd
-		"vn" 'vterm-toggle-forward
-		"vj" 'vterm-toggle-forward
-		"vp" 'vterm-toggle-backward
-		"vk" 'vterm-toggle-backward))
+(use-package multi-vterm
+	:config
+	(add-hook 'vterm-mode-hook
+			(lambda ()
+			(setq-local evil-insert-state-cursor 'box)
+			(evil-insert-state)))
+	(define-key vterm-mode-map [return]                      #'vterm-send-return)
+
+	(setq vterm-keymap-exceptions nil)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-e")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-f")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-a")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-v")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-b")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-w")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-u")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-n")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-m")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-p")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-j")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-k")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-r")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-t")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-g")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-c")      #'vterm--self-insert)
+	(evil-define-key 'insert vterm-mode-map (kbd "C-SPC")    #'vterm--self-insert)
+	(evil-define-key 'normal vterm-mode-map (kbd "C-d")      #'vterm--self-insert)
+	(evil-define-key 'normal vterm-mode-map (kbd ",c")       #'multi-vterm)
+	(evil-define-key 'normal vterm-mode-map (kbd ",n")       #'multi-vterm-next)
+	(evil-define-key 'normal vterm-mode-map (kbd ",p")       #'multi-vterm-prev)
+	(evil-define-key 'normal vterm-mode-map (kbd "i")        #'evil-insert-resume)
+	(evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
+	(evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
+
+;; (use-package vterm-toggle
+;; 	:init
+;; 	(nto/leader-keys
+;; 		"ot" 'vterm-toggle-cd
+;; 		"oT" 'vterm-toggle
+;; 		"v" '(:ignore t :wk "vterm")
+;; 		"vo" 'vterm-toggle-cd
+;; 		"vn" 'vterm-toggle-forward
+;; 		"vj" 'vterm-toggle-forward
+;; 		"vp" 'vterm-toggle-backward
+;; 		"vk" 'vterm-toggle-backward))
 
 ;; dependencies
 ;; pacman -S fd poppler ffmpegthumbnailer mediainfo imagemagick tar unzip
 ;;
-(use-package dirvish
-	:if (not nto/is-raspberry)
-	:init
-	(nto/leader-keys
-		;; "." 'dirvish-side
-		;; "fj" 'dirvish)
-		"fd" '(:ignore t :which-key "dirvish")
-		"fds" 'dirvish-side
-		"fd." 'dirvish)
-	;; (dirvish-override-dired-mode)
-	(setq dirvish-peek-mode t)
-	:custom
-	(dirvish-attributes '(file-size collapse subtree-state vc-state git-msg)))
+;; (use-package dirvish
+;; 	:if (not nto/is-raspberry)
+;; 	:init
+;; 	(nto/leader-keys
+;; 		;; "." 'dirvish-side
+;; 		;; "fj" 'dirvish)
+;; 		"fd" '(:ignore t :which-key "dirvish")
+;; 		"fds" 'dirvish-side
+;; 		"fd." 'dirvish)
+;; 	;; (dirvish-override-dired-mode)
+;; 	(setq dirvish-peek-mode t)
+;; 	:custom
+;; 	(dirvish-attributes '(file-size collapse subtree-state vc-state git-msg)))
 
 (use-package pdf-tools
 	:if (not nto/is-raspberry)

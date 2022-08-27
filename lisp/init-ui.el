@@ -152,10 +152,7 @@
 						"Dotfiles configuration for this machine"
 						(lambda (&rest _) (dired dots-directory)))
 					 )))
-	(setq dashboard-items '((agenda . 5)
-													(projects . 3)
-													(bookmarks . 3)
-													(recents . 3)))
+	(setq dashboard-items '((agenda . 5)))
 	(dashboard-setup-startup-hook))
 
 (use-package emojify

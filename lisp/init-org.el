@@ -1,5 +1,17 @@
 ;; -*- lexical-binding: t -*-
 
+(defun nto/org-insert-checkbox-below ()
+	"Insert a checkbox at point."
+	(interactive)
+	(evil-open-below 1)
+	(insert "+ [ ] "))
+
+(defun nto/org-insert-checkbox-above ()
+	"Insert a checkbox at point."
+	(interactive)
+	(evil-open-above 1)
+	(insert "+ [ ] "))
+
 (use-package org
 	:hook
 	((org-mode . prettify-symbols-mode)
@@ -12,13 +24,16 @@
 
 		"i" '(:ignore t :which-key "insert")
 		"il" '(org-insert-link :wk "link")
+		"ic" '(nto/org-insert-checkbox-below :wk "checkbox")
+		"iC" '(nto/org-insert-checkbox-above :wk "checkbox")
 
 		"t" '(:ignore t :which-key "todo")
 		"tt" '(org-todo :wk "heading-todo")
 		"ts" '(org-schedule :wk "schedule")
 		"td" '(org-deadline :wk "deadline")
 
-		"x" '(org-toggle-checkbox :wk "toggle checkbox"))
+		"x" '(org-toggle-checkbox :wk "toggle checkbox")
+		"c" 'org-ctrl-c-ctrl-c)
 
 	(setq org-src-preserve-indentation t
 				org-startup-indented t
@@ -161,36 +176,20 @@
     (interactive "p")
     (dotimes (_ count) (+org--insert-item 'above))))
 
-(use-package org-roam
-	:custom
-	(org-roam-directory "~/Documents/Org/Roam") ;; todo, move path to a variable
-	(org-roam-completion-everywhere t)
+(use-package denote
 	:init
-	(setq org-roam-v2-ack t)
+	(setq denote-directory (expand-file-name "~/Documents/Org/Denote"))
+	(setq denote-known-keywords '("journal" "projects" "ideas" "knowledge" "emacs" "linux" "3d-print" "keyboard" "book" "game"))
+	(setq denote-file-type nil)
+	(add-hook 'dired-mode-hook #'denote-dired-mode)
 	(nto/leader-keys
-		"n" '(:ignore t :which-key "Org Roam")
-		"na" 'org-roam-aliad-add
-		"ng" 'org-roam-graph
-		"nc" 'org-roam-capture
-		"nt" 'org-roam-tag-add
-		"nr" 'org-roam-reg-add
-		"nl" 'org-roam-buffer-toggle
-		"ni" 'org-roam-node-insert
-		"nf" 'org-roam-node-find)
-	(nto/local-leader-keys
-		;; :states 'normal
-		:keymaps '(org-mode-map insert)
-		"c" 'completion-at-point)
-	:config
-	(org-roam-setup))
-
-(use-package org-roam-ui
-	:straight (:host github :repo "org-roam/org-roam-ui" :branch "main" :files ("*.el" "out"))
-	:after org-roam
-	:config
-	(setq org-roam-ui-sync-theme t
-				org-roam-ui-follow t
-				org-roam-ui-update-on-save t
-				org-roam-ui-open-on-start nil))
+		"n" '(:ignore t :wk "Denote")
+		"nn" 'denote ;; create new note
+		"nF" 'denote-link-find-file ;; select referenced note in minibuffer
+		"nl" 'denote-link
+		"nL" 'denote-link-add-links ;; add link to all file matching REGEX
+		"nb" 'denote-link-backlinks ;; produce buffer with files linking to current note
+		)
+	)
 
 (provide 'init-org)
