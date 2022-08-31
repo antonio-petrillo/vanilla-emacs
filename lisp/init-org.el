@@ -182,6 +182,32 @@
 	(setq denote-known-keywords '("journal" "projects" "ideas" "knowledge" "emacs" "linux" "3d-print" "keyboard" "book" "game"))
 	(setq denote-file-type nil)
 	(add-hook 'dired-mode-hook #'denote-dired-mode)
+
+	(defun denote-journal-with-keyword ()
+	  "Prompt for denote 'keywords' and create a journal entry (by calling 'denote-journal')"
+		(interactive)
+		(let ((keywords (denote--keywords-prompt)))
+			(denote-journal keywords)))
+
+	(defun denote-journal (&optional keywords)
+		"Create an entry tagged 'journal' and the other 'keywords' with the date as its title, there will be only one entry per day."
+		(interactive)
+		(let* ((journal-home (expand-file-name "Journal" denote-directory))
+					 (formatted-date (format-time-string "%A %e %B %Y"))
+					 (entry-of-today-regex (downcase (format-time-string "%A-%e-%B-%Y")))
+					 (entry-of-today (car (directory-files journal-home nil entry-of-today-regex)))
+					 )
+			(if (not (member "journal" keywords))
+					(push "journal" keywords))
+			(if entry-of-today
+					(find-file (expand-file-name entry-of-today journal-home))
+				(denote
+				 formatted-date
+				 keywords
+				 nil
+				 journal-home)
+				(insert "* Thoughts\n\n* Tasks\n\n"))))
+
 	(nto/leader-keys
 		"n" '(:ignore t :wk "Denote")
 		"nn" 'denote ;; create new note
@@ -189,6 +215,8 @@
 		"nl" 'denote-link
 		"nL" 'denote-link-add-links ;; add link to all file matching REGEX
 		"nb" 'denote-link-backlinks ;; produce buffer with files linking to current note
+		"nj" 'denote-journal ;; journaling with denote
+		"nJ" 'denote-journal-with-keyword ;; journaling with denote
 		)
 	)
 

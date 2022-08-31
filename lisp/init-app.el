@@ -13,8 +13,8 @@
  	 (kbd "C") 'dired-do-copy
  	 (kbd "D") 'dired-do-delete
  	 (kbd "J") 'dired-goto-file
- 	 (kbd "M") 'dired-chmod
- 	 (kbd "O") 'dired-chown
+ 	 (kbd "M") 'dired-do-chmod
+ 	 (kbd "O") 'dired-do-chown
  	 (kbd "R") 'dired-do-rename
  	 (kbd "T") 'dired-do-touch
  	 (kbd "Y") 'dired-copy-filename-as-kill ; copies filename to kill ring.
@@ -24,6 +24,11 @@
  	 (kbd "% u") 'dired-upcase
  	 (kbd "; d") 'epa-dired-do-decrypt
  	 (kbd "; e") 'epa-dired-do-encrypt)
+
+	(setq wdired-allow-to-change-permissions t)
+	(setq dired-hide-details-hide-symlink-targets t)
+	(setq dired-recursive-copies 'always)
+	(setq dired-recursive-deletes 'top)
 	(setq dired-omit-files "^\\.[^.]\\|$Rhistory\\|$RData\\|__pycache__")
 	(setq dired-listing-switches "-lah")
   (setq ls-lisp-dirs-first t)
@@ -89,17 +94,17 @@
 	(evil-define-key 'normal vterm-mode-map (kbd "o")        #'evil-insert-resume)
 	(evil-define-key 'normal vterm-mode-map (kbd "<return>") #'evil-insert-resume))
 
-;; (use-package vterm-toggle
-;; 	:init
-;; 	(nto/leader-keys
-;; 		"ot" 'vterm-toggle-cd
-;; 		"oT" 'vterm-toggle
-;; 		"v" '(:ignore t :wk "vterm")
-;; 		"vo" 'vterm-toggle-cd
-;; 		"vn" 'vterm-toggle-forward
-;; 		"vj" 'vterm-toggle-forward
-;; 		"vp" 'vterm-toggle-backward
-;; 		"vk" 'vterm-toggle-backward))
+(use-package vterm-toggle
+	:init
+	(nto/leader-keys
+		"ot" 'vterm-toggle-cd
+		"oT" 'vterm-toggle
+		"v" '(:ignore t :wk "vterm")
+		"vo" 'vterm-toggle-cd
+		"vn" 'vterm-toggle-forward
+		"vj" 'vterm-toggle-forward
+		"vp" 'vterm-toggle-backward
+		"vk" 'vterm-toggle-backward))
 
 ;; dependencies
 ;; pacman -S fd poppler ffmpegthumbnailer mediainfo imagemagick tar unzip
