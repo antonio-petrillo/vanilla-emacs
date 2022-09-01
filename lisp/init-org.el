@@ -13,6 +13,7 @@
 	(insert "+ [ ] "))
 
 (use-package org
+	:straight (:type built-in)
 	:hook
 	((org-mode . prettify-symbols-mode)
 	 (org-mode . visual-line-mode))
@@ -183,20 +184,24 @@
 	(setq denote-file-type nil)
 	(add-hook 'dired-mode-hook #'denote-dired-mode)
 
-	(defun denote-journal-with-keyword ()
+	(defun nto/denote-journal-with-keyword ()
 	  "Prompt for denote 'keywords' and create a journal entry (by calling 'denote-journal')"
 		(interactive)
 		(let ((keywords (denote--keywords-prompt)))
 			(denote-journal keywords)))
 
-	(defun denote-journal (&optional keywords)
+	(defun nto/denote-journal (&optional keywords)
 		"Create an entry tagged 'journal' and the other 'keywords' with the date as its title, there will be only one entry per day."
 		(interactive)
+
 		(let* ((journal-home (expand-file-name "Journal" denote-directory))
 					 (formatted-date (format-time-string "%A %e %B %Y"))
-					 (entry-of-today-regex (downcase (format-time-string "%A-%e-%B-%Y")))
+					 (entry-of-today-regex (mapconcat 'identity (remove "" (split-string formatted-date " ")) "-" ))
+					 ;; (entry-of-today-regex (downcase (format-time-string "%A-%e-%B-%Y")))
+					 ;; don't work, day with one digit (like 1 September) generate wrong regex (like 'Wednesday--1-September-2022' instead of 'Wednesday--1-September-2022')
 					 (entry-of-today (car (directory-files journal-home nil entry-of-today-regex)))
 					 )
+
 			(if (not (member "journal" keywords))
 					(push "journal" keywords))
 			(if entry-of-today
@@ -208,15 +213,20 @@
 				 journal-home)
 				(insert "* Thoughts\n\n* Tasks\n\n"))))
 
+	(defun nto/goto-denote-directory ()
+		(interactive)
+		(find-file denote-directory))
+
 	(nto/leader-keys
 		"n" '(:ignore t :wk "Denote")
 		"nn" 'denote ;; create new note
+		"nf" 'nto/goto-denote-directory ;; select referenced note in minibuffer
 		"nF" 'denote-link-find-file ;; select referenced note in minibuffer
 		"nl" 'denote-link
 		"nL" 'denote-link-add-links ;; add link to all file matching REGEX
 		"nb" 'denote-link-backlinks ;; produce buffer with files linking to current note
-		"nj" 'denote-journal ;; journaling with denote
-		"nJ" 'denote-journal-with-keyword ;; journaling with denote
+		"nj" 'nto/denote-journal ;; journaling with denote
+		"nJ" 'nto/denote-journal-with-keyword ;; journaling with denote
 		)
 	)
 

@@ -47,20 +47,20 @@
         modus-themes-bold-constructs nil
         modus-themes-region '(bg-only no-extend))
 
-	(set-face-attribute 'default nil
-											:font "VictorMono Nerd Font"
-											:weight 'light
-											:height 130)
+	;; (set-face-attribute 'default nil
+	;; 										:font "VictorMono Nerd Font"
+	;; 										:weight 'light
+	;; 										:height 130)
 
-	(set-face-attribute 'fixed-pitch nil
-											:font "VictorMono Nerd Font"
-											:weight 'light
-											:height 130)
+	;; (set-face-attribute 'fixed-pitch nil
+	;; 										:font "VictorMono Nerd Font"
+	;; 										:weight 'light
+	;; 										:height 130)
 
-	(set-face-attribute 'variable-pitch nil
-											:font "VictorMono Nerd Font"
-											:weight 'light
-											:height 130)
+	;; (set-face-attribute 'variable-pitch nil
+	;; 										:font "VictorMono Nerd Font"
+	;; 										:weight 'light
+	;; 										:height 130)
 ;; I think this function could be written better
 	;; (if (>
 	;; 		 (string-to-number (nth 3 (split-string (current-time-string) " ")))
