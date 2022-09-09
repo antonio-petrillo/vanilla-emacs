@@ -47,28 +47,29 @@
         modus-themes-bold-constructs nil
         modus-themes-region '(bg-only no-extend))
 
-	;; (set-face-attribute 'default nil
-	;; 										:font "VictorMono Nerd Font"
-	;; 										:weight 'light
-	;; 										:height 130)
+	(load-theme 'modus-operandi)
 
-	;; (set-face-attribute 'fixed-pitch nil
-	;; 										:font "VictorMono Nerd Font"
-	;; 										:weight 'light
-	;; 										:height 130)
+	(set-face-attribute 'default nil
+											:font "VictorMono"
+											:weight 'light
+											:height 130)
 
-	;; (set-face-attribute 'variable-pitch nil
-	;; 										:font "VictorMono Nerd Font"
-	;; 										:weight 'light
-	;; 										:height 130)
+	(set-face-attribute 'fixed-pitch nil
+											:font "VictorMono"
+											:weight 'light
+											:height 130)
+
+	(set-face-attribute 'variable-pitch nil
+											:font "VictorMono"
+											:weight 'light
+											:height 130))
+
 ;; I think this function could be written better
-	;; (if (>
-	;; 		 (string-to-number (nth 3 (split-string (current-time-string) " ")))
-	;; 		 17) ;; after 17:00
-	;; 		(load-theme 'modus-vivendi)
-	;; 	(load-theme 'modus-operandi)))
-
-  (load-theme 'modus-operandi))
+;; 	(if (>
+;; 			 (string-to-number (nth 3 (split-string (current-time-string) " ")))
+;; 			 17) ;; after 17:00
+;; 			(load-theme 'modus-vivendi)
+;; 		(load-theme 'modus-operandi)))
 
 (use-package gruber-darker-theme)
 (use-package emacs

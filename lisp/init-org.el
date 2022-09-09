@@ -184,11 +184,26 @@
 	(setq denote-file-type nil)
 	(add-hook 'dired-mode-hook #'denote-dired-mode)
 
+	(defun nto/try-hack-me ()
+"Prompt for denote 'title', 'keywords' then auto-add 'tryhackme' keyword.
+Useful for keep track of my learning path on tryhackme platform"
+		(interactive)
+		(let ((title (denote--title-prompt))
+					(keywords (denote--keywords-prompt))
+					(tryhackme-home (expand-file-name "TryHackMe" denote-directory)))
+			(if (not (member "tryhackme" keywords))
+					(push "tryhackme" keywords))
+			(denote
+			 title
+			 keywords
+			 nil
+			 tryhackme-home)))
+
 	(defun nto/denote-journal-with-keyword ()
 	  "Prompt for denote 'keywords' and create a journal entry (by calling 'denote-journal')"
 		(interactive)
 		(let ((keywords (denote--keywords-prompt)))
-			(denote-journal keywords)))
+			(nto/denote-journal keywords)))
 
 	(defun nto/denote-journal (&optional keywords)
 		"Create an entry tagged 'journal' and the other 'keywords' with the date as its title, there will be only one entry per day."
@@ -227,7 +242,10 @@
 		"nb" 'denote-link-backlinks ;; produce buffer with files linking to current note
 		"nj" 'nto/denote-journal ;; journaling with denote
 		"nJ" 'nto/denote-journal-with-keyword ;; journaling with denote
-		)
-	)
+		"nt" 'nto/try-hack-me
+		"ns" '(:ignore t :wk "Search Denote")
+		"nsj" '((lambda () (interactive) (find-file (expand-file-name  "Journal" denote-directory))) :wk "Journal")
+		"nst" '((lambda () (interactive) (find-file (expand-file-name  "TryHackMe" denote-directory))) :wk "TryHackMe")
+		))
 
 (provide 'init-org)
