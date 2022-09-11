@@ -246,6 +246,7 @@ Useful for keep track of my learning path on tryhackme platform"
 		"ns" '(:ignore t :wk "Search Denote")
 		"nsj" '((lambda () (interactive) (find-file (expand-file-name  "Journal" denote-directory))) :wk "Journal")
 		"nst" '((lambda () (interactive) (find-file (expand-file-name  "TryHackMe" denote-directory))) :wk "TryHackMe")
+		"nsl" '((lambda () (interactive) (find-file (expand-file-name  "TryHackMe/20220909T101107--tryhackme-logbook__emacs_knowledge_linux_tryhackme.org" denote-directory))) :wk "TryHackMe logbook")
 		))
 
 (provide 'init-org)

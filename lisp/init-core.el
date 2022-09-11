@@ -145,6 +145,12 @@
 	     :config
 	     (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
 			 (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+			 (define-key evil-insert-state-map (kbd "C-d") 'delete-char)
+			 (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)
+			 (define-key evil-insert-state-map (kbd "C-a") 'beginning-of-line)
+			 (define-key evil-insert-state-map (kbd "C-n") 'next-line)
+			 (define-key evil-insert-state-map (kbd "C-p") 'previous-line)
+			 (define-key evil-insert-state-map (kbd "C-j") 'newline)
 			 (evil-global-set-key 'motion "j" 'evil-next-visual-line)
 			 (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 	     (define-key evil-motion-state-map "_" 'evil-end-of-line)
@@ -364,9 +370,45 @@
 	(:map evil-insert-state-map ("C-k" . nil))
 	:init
 	(global-corfu-mode))
+
 ;; todo
-;; + add cape by minad
-;; + checkout dabbrev
+;; + checkout dabbrev (it's built-in, the default is binded to M-/)
+
+(use-package cape
+  :bind (("C-c p" . completion-at-point) ;; capf
+				 ("M-p" . completion-at-point) ;; capf
+				 ;; ("C-c p p" . completion-at-point) ;; capf
+         ;; ("C-c p t" . complete-tag)        ;; etags
+         ;; ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+         ;; ("C-c p h" . cape-history)
+         ;; ("C-c p f" . cape-file)
+         ;; ("C-c p k" . cape-keyword)
+         ;; ("C-c p s" . cape-symbol)
+         ;; ("C-c p a" . cape-abbrev)
+         ;; ("C-c p i" . cape-ispell)
+         ;; ("C-c p l" . cape-line)
+         ;; ("C-c p w" . cape-dict)
+         ;; ("C-c p \\" . cape-tex)
+         ;; ("C-c p _" . cape-tex)
+         ;; ("C-c p ^" . cape-tex)
+         ;; ("C-c p &" . cape-sgml)
+         ;; ("C-c p r" . cape-rfc1345)
+				 )
+  :init
+  ;; Add `completion-at-point-functions', used by `completion-at-point'.
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file)
+  (add-to-list 'completion-at-point-functions #'cape-history)
+  (add-to-list 'completion-at-point-functions #'cape-keyword)
+  ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+  ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+  ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+  ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+  ;;(add-to-list 'completion-at-point-functions #'cape-ispell)
+  ;;(add-to-list 'completion-at-point-functions #'cape-dict)
+  (add-to-list 'completion-at-point-functions #'cape-symbol)
+  (add-to-list 'completion-at-point-functions #'cape-line)
+)
 
 (use-package kind-icon
 	:after corfu
