@@ -83,7 +83,7 @@
 	(setq nto/is-raspberry (and (eq system-type 'gnu/linux)
 															(string-match "aarch64" (shell-command-to-string "uname -m"))
 															t)) ;; add something to check if emacs is running on my pi4
-;;	(setq nto/is-mac nil) ;; I don't even have a mac right now, but I'm trying to find an M1
+;;	(setq nto/is-mac nil) ;; I don't even have a mac right now, but I'm trying to find an M1 at a decent price
 ;;	(setq nto/is-ipad nil) ;; I can't install emacs on blink, I need to explore more iSh, but iSH is "only" an Alpine container, consider jaibreak
 	;; (setq nto/is-gnu-linux t)
 	;; (setq nto/is-winzozz nil)
@@ -391,6 +391,8 @@
 	:init
 	(setq yas-snippet-dirs '(yasnippet-home))
 	(yas-global-mode 1))
+
+(use-package yasnippet-snippets)
 
 (use-package perspective
 	:demand t

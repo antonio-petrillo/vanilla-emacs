@@ -211,7 +211,7 @@ Useful for keep track of my learning path on tryhackme platform"
 
 		(let* ((journal-home (expand-file-name "Journal" denote-directory))
 					 (formatted-date (format-time-string "%A %e %B %Y"))
-					 (entry-of-today-regex (mapconcat 'identity (remove "" (split-string formatted-date " ")) "-" ))
+					 (entry-of-today-regex (mapconcat 'downcase (remove "" (split-string formatted-date " ")) "-" ))
 					 ;; (entry-of-today-regex (downcase (format-time-string "%A-%e-%B-%Y")))
 					 ;; don't work, day with one digit (like 1 September) generate wrong regex (like 'Wednesday--1-September-2022' instead of 'Wednesday--1-September-2022')
 					 (entry-of-today (car (directory-files journal-home nil entry-of-today-regex)))
