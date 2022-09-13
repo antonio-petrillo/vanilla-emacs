@@ -197,7 +197,8 @@ Useful for keep track of my learning path on tryhackme platform"
 			 title
 			 keywords
 			 nil
-			 tryhackme-home)))
+			 tryhackme-home)
+			(insert "* Link to the room\n")))
 
 	(defun nto/denote-journal-with-keyword ()
 	  "Prompt for denote 'keywords' and create a journal entry (by calling 'denote-journal')"
