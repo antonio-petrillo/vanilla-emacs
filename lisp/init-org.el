@@ -28,6 +28,8 @@
 		"ic" '(nto/org-insert-checkbox-below :wk "checkbox")
 		"iC" '(nto/org-insert-checkbox-above :wk "checkbox")
 
+		"I" '(org-toggle-inline-images :wk "Toggle inline images")
+
 		"t" '(:ignore t :which-key "todo")
 		"tt" '(org-todo :wk "heading-todo")
 		"ts" '(org-schedule :wk "schedule")
@@ -183,6 +185,22 @@
 	(setq denote-known-keywords '("journal" "projects" "ideas" "knowledge" "emacs" "linux" "3d-print" "keyboard" "book" "game"))
 	(setq denote-file-type nil)
 	(add-hook 'dired-mode-hook #'denote-dired-mode)
+
+	(defun nto/networking101 ()
+		"Prompt for denote 'title', 'keywords' then auto-add 'networking101' keyword."
+		(interactive)
+		(let ((title (denote--title-prompt))
+					(keywords (denote--keywords-prompt))
+					(networking101-home (expand-file-name "Morrolinux/Networking101" denote-directory)))
+			(if (not (member "networking101" keywords))
+					(push "networking101" keywords))
+			(denote
+			 title
+			 keywords
+			 nil
+			 networking101-home)
+			(insert (concat "* Link to the course\n[[https://www.udemy.com/course/networking-101-corso-di-reti-da-zero/learn/lecture/][course link]]\n* " title "\n"))))
+
 
 	(defun nto/try-hack-me ()
 "Prompt for denote 'title', 'keywords' then auto-add 'tryhackme' keyword.

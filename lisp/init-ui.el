@@ -140,6 +140,10 @@
 		(setq dashboard-startup-banner pi-banner))
 	(setq dashboard-navigator-buttons
 				`((;;Github
+					 (,(all-the-icons-faicon  "book" :height 1.1 :v-adjust 0.0)
+						"XKCD"
+						"XKCD is fun"
+						(lambda (&rest _) (xkcd)))
 					 (,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
 						"Github"
 						"My github"
