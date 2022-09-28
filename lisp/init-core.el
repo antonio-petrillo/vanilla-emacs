@@ -232,7 +232,7 @@
 	;; to add:
 	;; + jump to scratch
 
-	"c" '(:ignore t :which-key "code")
+	;; "c" '(:ignore t :which-key "code")
 	;; to add:
 	;; + eval lisp shortcut
 	;; + lsp setup
@@ -259,6 +259,7 @@
 	"hv" 'describe-variable
 
 	"i" '(:ignore t :wk "insert")
+	"ic" 'insert-char
 
 	"o" '(:ignore t :wk "open")
 
@@ -519,13 +520,13 @@ _l_ → _L_ → m   _c_ delete      _]_ prev buffer         _,_  W ←
 
   ;; movement
   ("h" evil-window-left)
-  ("H" +evil/window-move-left)
+  ("H" evil-window-move-far-left)
   ("j" evil-window-down)
-  ("J" +evil/window-move-down)
+  ("J" evil-window-move-very-bottom)
   ("k" evil-window-up)
-  ("K" +evil/window-move-up)
+  ("K" evil-window-move-very-top)
   ("l" evil-window-right)
-  ("L" +evil/window-move-right))
+  ("L" evil-window-move-far-left))
 
 (nto/leader-keys
 	"ow" '((lambda () (interactive) (nto/hydra-window-management/body)) :wk "window management"))

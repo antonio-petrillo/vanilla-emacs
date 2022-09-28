@@ -14,4 +14,21 @@
 		"pc" 'projectile-compile-project
 		"pt" 'projectile-run-vterm))
 
+
+(use-package lsp-mode
+	:commands
+	(lsp lsp-deferred)
+	:hook
+	(lsp-mode . lsp-enable-which-key-integration)
+	:init
+	(setq lsp-keymap-prefix "C-c l")
+	(add-hook 'lsp-mode-hook #'corfu-lsp-setup))
+
+(use-package lsp-ui
+	:commands lsp-ui-mode)
+
+(use-package go-mode
+	:init
+	(add-hook 'go-mode-hook #'lsp-deferred))
+
 (provide 'init-prog)
