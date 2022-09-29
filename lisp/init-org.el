@@ -54,7 +54,25 @@
 		"oaa" 'org-agenda
 		"oan" '((lambda () (interactive) (find-file (nth 0 org-agenda-files))) :wk "Note agenda")
 		"oap" '((lambda () (interactive) (find-file (nth 1 org-agenda-files))) :wk "Private agenda")
-		"oau" '((lambda () (interactive) (find-file (nth 2 org-agenda-files))) :wk "Uni agenda")))
+		"oau" '((lambda () (interactive) (find-file (nth 2 org-agenda-files))) :wk "Uni agenda"))
+
+	(setq org-confirm-babel-evaluate nil
+				org-src-preserve-indentation t
+				org-startup-folded   t
+				org-startup-indented t
+				org-startup-with-inline-images t)
+	(org-babel-do-load-languages
+	 'org-babel-load-languages
+	 '((emacs-lisp . t)
+		 (eshell     . t)
+		 (C          . t)
+		 (awk        . t)
+		 (sed        . t)
+		 (shell      . t)
+		 (java       . t)
+		 (go         . t)))
+
+	)
 
 (use-package org-modern
 	:if (not nto/is-raspberry)
