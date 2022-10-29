@@ -12,12 +12,19 @@
 	(evil-open-above 1)
 	(insert "+ [ ] "))
 
+(use-package ob-go
+	:straight (ob-go :type git :host github :repo "pope/ob-go"))
+
 (use-package org
 	:straight (:type built-in)
 	:hook
 	((org-mode . prettify-symbols-mode)
+	 (org-mode . (lambda () (add-function :before-until (local 'electric-pair-inhibit-predicate) (lambda (c) (eq c ?<)))))
 	 (org-mode . visual-line-mode))
 	:init
+	(require 'ob-clojure)
+	(setq org-babel-clojure-backend 'cider)
+	(require 'cider)
 	(nto/local-leader-keys
 		:keymaps '(org-mode-map)
 		"f" '(:ignore t :which-key "file")
@@ -61,6 +68,7 @@
 				org-startup-folded   t
 				org-startup-indented t
 				org-startup-with-inline-images t)
+
 	(org-babel-do-load-languages
 	 'org-babel-load-languages
 	 '((emacs-lisp . t)
@@ -69,8 +77,11 @@
 		 (awk        . t)
 		 (sed        . t)
 		 (shell      . t)
-		 (java       . t)
-		 (go         . t)))
+		 (python     . t)
+		 (go         . t)
+		 (clojure    . t)
+		 ))
+
 
 	)
 

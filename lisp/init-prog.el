@@ -27,8 +27,22 @@
 (use-package lsp-ui
 	:commands lsp-ui-mode)
 
-(use-package go-mode
-	:init
-	(add-hook 'go-mode-hook #'lsp-deferred))
+(use-package go-mode)
+
+(use-package python-mode
+	:hook (python-mode . lsp-deferred)
+	:custom
+  ;; (python-shell-interpreter "python3")
+  ;; (dap-python-executable "python3")
+	(dap-python-debugger 'debugpy)
+	:config
+	(require 'dap-python))
+
+(use-package pyenv
+	:config
+	(pyenv-mode 1))
+
+(use-package clojure-mode)
+(use-package cider) ;; remember cider jack in
 
 (provide 'init-prog)

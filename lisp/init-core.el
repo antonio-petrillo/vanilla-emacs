@@ -63,7 +63,12 @@
 
 (use-package emacs
   :init
+	(electric-pair-mode 1)
 
+	;; (add-hook 'org-mode-hook (lambda ()
+	;; 													 (setq-local electric-pair-inhibit-predicate
+	;; 																			 `(lambda (c)
+	;; 																					(if (char-equal c ?<) t ,(,electric-pair-inhibit-predicate c))))))
 	;; move to config.el (or early-init?)
 	(setq user-full-name "Antonio Petrillo"
 				user-mail-address "antonio.petrillo4@studenti.unina.it")
@@ -150,7 +155,7 @@
 			 (define-key evil-insert-state-map (kbd "C-a") 'beginning-of-line)
 			 (define-key evil-insert-state-map (kbd "C-n") 'next-line)
 			 (define-key evil-insert-state-map (kbd "C-p") 'previous-line)
-			 (define-key evil-insert-state-map (kbd "C-j") 'newline)
+			 (define-key evil-insert-state-map (kbd "C-j") 'evil-open-below)
 			 (evil-global-set-key 'motion "j" 'evil-next-visual-line)
 			 (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 	     (define-key evil-motion-state-map "_" 'evil-end-of-line)
@@ -271,6 +276,7 @@
 
 	"w" '(:ignore t :which-key "window")
 	"ww" 'ace-window
+	"wo" 'delete-other-windows
 	"wh" 'evil-window-left
 	"wj" 'evil-window-down
 	"wk" 'evil-window-up

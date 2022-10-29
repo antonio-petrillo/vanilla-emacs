@@ -125,9 +125,11 @@
 
 (use-package pdf-tools
 	:if (not nto/is-raspberry)
-	:config
-	(pdf-tools-install)
-	(setq-default pdf-view-display-size 'fit-page))
+	:init
+	(add-hook 'doc-view-mode (lambda () (require 'pdf-tools)))
+	(with-eval-after-load 'pdf-tools
+		(pdf-tools-install)
+		(setq-default pdf-view-display-size 'fit-page)))
 
 (use-package xkcd
 	:config
@@ -150,5 +152,29 @@
 ;; + telega (telegram)
 ;; + discord (I don't remember the name)
 ;; + whatsapp (I'm not sure that package exist)
+
+;; (defun nto/configure-eshell ()
+;; 	(add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
+
+;; 	(add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
+
+;; 	(evil-define-key '(normal insert visual) (kbd "<home>") 'eshell-bol)
+;; 	(evil-normalize-keymaps)
+
+;; 	(setq eshell-history-size 10000
+;; 				eshell-buffer-maximum-lines 10000
+;; 				eshell-hist-ignoredups t
+;; 				eshell-scroll-to-bottom-on-input t))
+
+;; (use-package eshell-git-prompt
+;; 	:init
+;; 	(eshell-git-prompt-use-theme 'powerline))
+
+;; (use-package eshell
+;; 	:hook (eshell-first-time-mode . nto/configure-eshell)
+;; 	:config
+;; 	(with-eval-after-load 'esh-opt
+;; 		(setq eshell-destroy-buffer-when-process-dies t)
+;; 		(setq eshell-visual-commands '("htops" "zsh" "vim"))))
 
 (provide 'init-app)
